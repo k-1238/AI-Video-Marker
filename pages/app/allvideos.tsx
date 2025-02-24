@@ -27,8 +27,6 @@ const Page = () => {
   
     fetchData();
   }, []);
-  
-  console.log('videos', videos)
 
   return (
     <div>

@@ -45,7 +45,7 @@ const InputModal: React.FC<InputModalProps> = ({ open, handleClose, status }) =>
       const duration = convertLengthToDuration(length);
 
       const data = { prompt, orientation, duration, durationPerScene: convertLengthToDuration(durationPerScene) };
-
+      
       router.push({
         pathname: "/app/choose-template",
         query: data,

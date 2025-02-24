@@ -13,15 +13,12 @@ export default async function createVideo(
   try {
     await ConnectDB();
 
-    console.log('req body', req.body)
-
     // Ensure the method is POST
     if (req.method !== "POST") {
       return res.status(405).json({ message: "Method not allowed" });
     }
     // Fetch session
     const session = await getServerSession(req, res, AuthOptions);
-    console.log('session', session)
     if (!session || !session.user) {
       return res.status(401).json({ message: "Unauthorized" });
     }
@@ -30,7 +27,6 @@ export default async function createVideo(
     const userEmail = session?.user?.email;
     const user = await UserModel.findOne({ email: userEmail });
     const userId = user?._id.toString();
-    console.log("User ID from session:", user?._id);
 
     let videoResultUrl;
     // if (req.body.template === "Static") {
