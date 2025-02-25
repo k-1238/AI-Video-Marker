@@ -20,6 +20,7 @@ import {
   GiArtificialHive,
   GiHamburgerMenu,
 } from "react-icons/gi";
+import { MdSpaceDashboard } from "react-icons/md";
 import {
   MdOutlineOndemandVideo,
 } from "react-icons/md";
@@ -37,6 +38,10 @@ const AppLayout = ({
       name: 'All Videos',
       icon: <MdOutlineOndemandVideo size={32} />,
       href: '/app/allvideos'
+    }, {
+      name: "Dashboard",
+      icon: <MdSpaceDashboard size={32} />,
+      href: '/app/dashboard'
     }
   ];
   return (
@@ -158,7 +163,7 @@ const AppLayout = ({
             p: 3,
             display: 'flex',
             flexDirection: 'column',
-            height: '100%'
+            height: '100%',
           }}
         >
           <Toolbar />
