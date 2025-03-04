@@ -1,38 +1,13 @@
-import React from "react";
+import { Button } from "@mui/material";
+import { signOut } from "next-auth/react";
 import Link from "next/link";
-import {
-  AppBar,
-  Avatar,
-  Box,
-  CssBaseline,
-  Drawer,
-  IconButton,
-  List,
-  ListItem,
-  ListItemButton,
-  ListItemIcon,
-  ListItemText,
-  Toolbar,
-  Tooltip,
-  Typography,
-} from "@mui/material";
-import {
-  GiArtificialHive,
-  GiHamburgerMenu,
-} from "react-icons/gi";
-import { MdSpaceDashboard } from "react-icons/md";
+import React from "react";
+import { GiArtificialHive } from "react-icons/gi";
+import { MdCreate, MdHome, MdLogout, MdSpaceDashboard } from "react-icons/md";
 import {
   MdOutlineOndemandVideo,
 } from "react-icons/md";
-
-type AppLayoutProps = {
-  visibleDrawer?: boolean,
-}
-
-const AppLayout = ({
-  visibleDrawer = true,
-  children,
-}: React.PropsWithChildren<AppLayoutProps>) => {
+const AppLayout = ({ children }) => {
   const sideLink = [
     {
       name: 'All Videos',
@@ -42,142 +17,56 @@ const AppLayout = ({
       name: "Dashboard",
       icon: <MdSpaceDashboard size={32} />,
       href: '/app/dashboard'
+    },
+    {
+      name: "Home",
+      icon: <MdHome size={32} />,
+      href: '/'
+    },
+    {
+      name: "Create a Video",
+      icon: <MdCreate  size={32} />,
+      href: '/app/createVideo'
     }
   ];
   return (
-    <div>
-      <Box
-        sx={{
-          display: 'flex',
-          height: '100vh',
-        }}
-      >
-        <CssBaseline />
-        <AppBar
-          position="fixed"
-          sx={{
-            zIndex: (theme) => theme.zIndex.drawer + 1,
-            paddingX: 2,
-          }}
-        >
-          <Toolbar disableGutters>
-            <Box sx={{ display: { xs: 'none', md: 'flex' }, mr: 1 }}>
-              <GiArtificialHive size={32} />
-            </Box>
-            <Typography
-              variant="h6"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: 'none', md: 'flex' },
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
+    <div className="flex h-screen bg-[#0f0f0f] text-white">
+      {/* Sidebar */}
+      <aside className="w-56 bg-black p-4 flex flex-col h-screen">
+        {/* Header */}
+        <div className="flex flex-row gap-2">
+          <GiArtificialHive size={32} />
+          <h1 className="text-purple-500 text-xl font-bold font-mono">VideoGen.com</h1>
+        </div>
+
+        {/* Sidebar Links */}
+        <ul className="mt-4 space-y-2 flex-grow">
+          {sideLink.map((text, index) => (
+            <div
+              key={index}
+              className="flex flex-row justify-start items-center hover:bg-[#160032] hover:rounded-2xl p-3"
             >
-              VidioGen.com
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', md: 'none' } }}>
-              <IconButton
-                size="large"
-                color="inherit"
-              >
-                <GiHamburgerMenu />
-              </IconButton>
-            </Box>
-            <Box sx={{ display: { xs: 'flex', md: 'none' }, mr: 1 }}>
-              <GiArtificialHive size={32} />
-            </Box>
-            <Typography
-              variant="h5"
-              noWrap
-              component="a"
-              sx={{
-                mr: 2,
-                display: { xs: 'flex', md: 'none' },
-                flexGrow: 1,
-                fontFamily: 'monospace',
-                fontWeight: 700,
-                letterSpacing: '.3rem',
-                color: 'inherit',
-                textDecoration: 'none',
-              }}
-            >
-              Video Editor
-            </Typography>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', md: 'flex' } }}>
-            </Box>
-            <Box sx={{ flexGrow: 0 }}>
-              <Tooltip title="Profile">
-                <IconButton sx={{ p: 0 }}>
-                  <Avatar src="/favicon.ico" />
-                </IconButton>
-              </Tooltip>
-            </Box>
-          </Toolbar>
-        </AppBar>
-        {visibleDrawer && (
-          <Drawer
-            sx={{
-              width: 240,
-              flexShrink: 0,
-              '& .MuiDrawer-paper': {
-                width: 240,
-                boxSizing: 'border-box',
-              },
-            }}
-            variant="permanent"
-            anchor="left"
-          >
-            <Toolbar />
-            <Box
-              sx={{
-                padding: 2,
-                overflow: 'auto',
-              }}
-            >
-              <List>
-                {sideLink.map((link) => (
-                  <ListItem key={link.name} disablePadding>
-                    <Link href={link.href} passHref>
-                      <ListItemButton>
-                        <ListItemIcon>
-                          {link.icon}
-                        </ListItemIcon>
-                      <ListItemText primary={link.name} />
-                      </ListItemButton>
-                    </Link>
-                  </ListItem>
-                ))}
-              </List>
-            </Box>
-          </Drawer>
-        )}
-        <Box
-          component="main"
-          sx={{
-            flexGrow: 1,
-            p: 3,
-            display: 'flex',
-            flexDirection: 'column',
-            height: '100%',
-          }}
-        >
-          <Toolbar />
-          <Box
-            sx={{
-              flexGrow: 1,
-            }}
-          >
-            {children}
-          </Box>
-        </Box>
-      </Box>
+              {text.icon}
+              <li key={text.name} className="py-2 px-4 rounded cursor-pointer">
+                <Link href={text.href}>{text.name}</Link>
+              </li>
+            </div>
+          ))}
+        </ul>
+
+        {/* Logout Button (Always at Bottom) */}
+        <Button startIcon={<MdLogout />} className="mt-auto" variant="text" color="secondary" onClick={() => signOut()}>
+          Log out
+        </Button>
+      </aside>
+
+
+      {/* Main Content */}
+      <main className="flex-1 p-6 overflow-auto">
+        {children}
+      </main>
     </div>
-  )
-}
+  );
+};
 
 export default AppLayout;

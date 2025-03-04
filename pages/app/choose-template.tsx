@@ -15,6 +15,7 @@ const Page = () => {
 
   // State to hold initial data and selected template
   const [videoRequest, setVideoRequest] = useState({
+    voice: "",
     prompt: "",
     orientation: "",
     duration: 0,
@@ -28,6 +29,7 @@ const Page = () => {
     if (router.query.prompt) {
       setVideoRequest((prev) => ({
         ...prev,
+        voice: router.query.voice as string,
         prompt: router.query.prompt as string,
         orientation: router.query.orientation as string,
         duration: Number(router.query.duration),
@@ -60,6 +62,7 @@ const Page = () => {
       // Determine the query parameters based on videoRequest
       const queryParams = videoRequest.prompt
         ? {
+            voice: videoRequest.voice,
             prompt: videoRequest.prompt,
             orientation: videoRequest.orientation,
             duration: videoRequest.duration,

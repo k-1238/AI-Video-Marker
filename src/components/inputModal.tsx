@@ -15,6 +15,7 @@ import { MdClose } from "react-icons/md";
 import { convertLengthToDuration } from "../../utils/common";
 import { useRouter } from "next/router";
 import { useSession } from "next-auth/react";
+import Asynchronous from "./ui/Asynchronous";
 
 interface InputModalProps {
   open: boolean;
@@ -27,7 +28,7 @@ const InputModal: React.FC<InputModalProps> = ({ open, handleClose, status }) =>
   const [orientation, setOrientation] = useState<string>("square");
   const [length, setLength] = useState<string>("30 seconds");
   const [durationPerScene, setDurationPerScene] = useState<string>("15 seconds");
-
+  const [voice, setVoice] = useState<string | null>(null);
   const { data: session } = useSession()
 
   const router = useRouter();
@@ -44,8 +45,8 @@ const InputModal: React.FC<InputModalProps> = ({ open, handleClose, status }) =>
       // Convert length to duration in seconds
       const duration = convertLengthToDuration(length);
 
-      const data = { prompt, orientation, duration, durationPerScene: convertLengthToDuration(durationPerScene) };
-      
+      const data = { prompt, orientation, duration, durationPerScene: convertLengthToDuration(durationPerScene), voice };
+
       router.push({
         pathname: "/app/choose-template",
         query: data,
@@ -75,6 +76,7 @@ const InputModal: React.FC<InputModalProps> = ({ open, handleClose, status }) =>
           p: 5,
           borderRadius: 2,
           position: "relative",
+          color: "black",
         }}
       >
         {/* Close Icon */}
@@ -101,6 +103,7 @@ const InputModal: React.FC<InputModalProps> = ({ open, handleClose, status }) =>
           helperText={`${prompt.length}/120 characters`}
           margin="normal"
         />
+        <Asynchronous setVoice={setVoice}/>
         <Typography variant="subtitle1" sx={{ mt: 2 }} gutterBottom>
           Orientation
         </Typography>

@@ -285,27 +285,6 @@ const DraggableTextarea = ({
         opacity: isDragging ? 0.5 : 1,
       }}
     >
-      {/* <TextareaAutosize
-        minRows={3}
-        placeholder="Enter text here"
-        value={item.text}
-        onChange={(e) => handleTextChange(id, e.target.value)}
-        style={{ width: "100%", padding: "8px", border: "none" }}
-      /> */}
-      {/* <textarea
-        rows={3}
-        maxLength={150}
-        placeholder="Enter text here"
-        value={item.text}
-        onChange={(e) => handleTextChange(id, e.target.value)}
-        style={{ 
-          width: "100%", 
-          padding: "8px", 
-          border: "none", 
-          resize: "none",
-          overflow: "hidden", // Hide overflow
-        }}
-      /> */}
       <textarea
         rows={3}
         maxLength={150}
@@ -313,6 +292,8 @@ const DraggableTextarea = ({
         value={item.text}
         onChange={handleChange}
         style={{
+          color: "black",
+          backgroundColor: "white",
           width: "100%",
           padding: "8px",
           border: error ? "1px solid red" : "1px solid #ccc",

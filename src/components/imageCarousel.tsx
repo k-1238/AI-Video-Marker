@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Box, IconButton } from '@mui/material';
 import { MdKeyboardArrowLeft, MdKeyboardArrowRight } from 'react-icons/md';
+import Image from 'next/image';
 
 const ImageCarousel = () => {
   const [activeIndex, setActiveIndex] = useState(0);
@@ -74,7 +75,9 @@ const ImageCarousel = () => {
                   className="relative w-full h-full"
                   style={{ width: `${100 / images.length}%` }}
                 >
-                  <img
+                  <Image
+                    width={100}
+                    height={100}
                     src={`/api/placeholder/800/600`}
                     alt={image.alt}
                     className="w-full h-full object-cover"

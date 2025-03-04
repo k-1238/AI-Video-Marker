@@ -7,7 +7,7 @@ import FormControlLabel from "@mui/material/FormControlLabel";
 import Divider from "@mui/material/Divider";
 import FormLabel from "@mui/material/FormLabel";
 import FormControl from "@mui/material/FormControl";
-import Link from "@mui/material/Link";
+import Link from 'next/link';
 import TextField from "@mui/material/TextField";
 import Typography from "@mui/material/Typography";
 import { styled } from "@mui/material/styles";
@@ -16,6 +16,7 @@ import LoginImage from "../public/loginImg2.jpg";
 import axios from "axios";
 import { useRouter } from "next/router";
 import { signIn } from "next-auth/react"
+import Grid from "@/components/Grid";
 
 const Container = styled(Box)(({ theme }) => ({
   display: "flex",
@@ -128,155 +129,147 @@ const Page = () => {
   return (
     <>
       <CssBaseline enableColorScheme />
-      <Container>
-        <div className="hidden justify-center items-center w-[50%] sm:flex relative">
-            <Image 
-                alt="image" 
-                src={LoginImage} 
-                // layout="fill" 
-                // objectFit="cover" 
-            />
-        </div>
-
-        <div className="w-full sm:w-[50%] p-8  ">
-          <div className="w-full flex justify-center items-center">
-            <form
-              onSubmit={handleSubmit}
-              className="w-[80%] h-[600px] flex flex-col gap-2 "
+      <Container maxWidth={"xs"}>
+        <div className="w-full p-8 flex justify-center ">
+          <form
+            onSubmit={handleSubmit}
+            className="flex flex-col w-[400px]"
+          >
+            <Typography
+              component="h1"
+              variant="h4"
+              sx={{ textAlign: "center", marginBottom: 2 }}
             >
-              <Typography
-                component="h1"
-                variant="h4"
-                sx={{ textAlign: "center", marginBottom: 2 }}
-              >
-                Sign Up
-              </Typography>
+              Sign Up
+            </Typography>
 
-              <FormControl fullWidth>
-                <FormLabel htmlFor="number">Phone Number</FormLabel>
-                <TextField
-                  error={phoneNumberError}
-                  helperText={phoneNumberMessage}
-                  id="phoneNumber"
-                  type="number"
-                  name="phoneNumber"
-                  placeholder="+62"
-                  autoComplete="number"
-                  autoFocus
-                  required
-                  variant="outlined"
-                />
-              </FormControl>
+            <FormControl fullWidth>
+              <FormLabel htmlFor="number">Phone Number</FormLabel>
+              <TextField
+                error={phoneNumberError}
+                helperText={phoneNumberMessage}
+                id="phoneNumber"
+                type="number"
+                name="phoneNumber"
+                placeholder="+62"
+                autoComplete="number"
+                autoFocus
+                required
+                variant="outlined"
+              />
+            </FormControl>
 
-              <FormControl fullWidth>
-                <FormLabel htmlFor="username">Username</FormLabel>
-                <TextField
-                  error={usernameError}
-                  helperText={usernameMessage}
-                  id="username"
-                  type="text"
-                  name="username"
-                  placeholder=""
-                  autoComplete="username"
-                  autoFocus
-                  required
-                  variant="outlined"
-                />
-              </FormControl>
+            <FormControl fullWidth>
+              <FormLabel htmlFor="username">Username</FormLabel>
+              <TextField
+                error={usernameError}
+                helperText={usernameMessage}
+                id="username"
+                type="text"
+                name="username"
+                placeholder=""
+                autoComplete="username"
+                autoFocus
+                required
+                variant="outlined"
+              />
+            </FormControl>
 
-              <FormControl fullWidth>
+            <FormControl fullWidth>
 
-                <FormLabel htmlFor="email">Email</FormLabel>
+              <FormLabel htmlFor="email">Email</FormLabel>
 
-                <TextField
-                  error={emailError}
-                  helperText={emailErrorMessage}
-                  id="email"
-                  type="email"
-                  name="email"
-                  placeholder="your@email.com"
-                  autoComplete="email"
-                  autoFocus
-                  required
-                  variant="outlined"
-                />
-
-              </FormControl>
-
-              <FormControl fullWidth>
-                <FormLabel htmlFor="password">Password</FormLabel>
-
-                <TextField
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  required
-                  variant="outlined"
-                />
-
-              </FormControl>
-
-              <FormControl fullWidth>
-                <FormLabel htmlFor="password">Confirm Password</FormLabel>
-                <TextField
-                  error={passwordError}
-                  helperText={passwordErrorMessage}
-                  name="password"
-                  placeholder="••••••"
-                  type="password"
-                  id="password"
-                  autoComplete="current-password"
-                  required
-                  variant="outlined"
-                />
-              </FormControl>
-
-              <FormControlLabel
-                control={<Checkbox value="remember" color="primary" />}
-                label="Remember me"
+              <TextField
+                error={emailError}
+                helperText={emailErrorMessage}
+                id="email"
+                type="email"
+                name="email"
+                placeholder="your@email.com"
+                autoComplete="email"
+                autoFocus
+                required
+                variant="outlined"
               />
 
-              <Button
-                type="submit"
-                fullWidth
-                variant="contained"
-                onClick={validateInputs}
-              >
-                Sign up
-              </Button>
+            </FormControl>
 
-              <Divider>or</Divider>
-              <Button
-                fullWidth
-                variant="outlined"
-                onClick={() => {
-                  signIn("google", { callbackUrl: "/" });
-                }}
-              >
-                Sign In with Google
-              </Button>
+            <FormControl fullWidth>
+              <FormLabel htmlFor="password">Password</FormLabel>
 
-              <Button
-                fullWidth
+              <TextField
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                required
                 variant="outlined"
-                onClick={() => {
-                  signIn("github", { callbackUrl: "/" });
-                }}
-              >
-                Sign In with Github
-              </Button>
-              <Typography sx={{ textAlign: "center" }}>
-                You have an account?{" "}
-                <Link href="/sign-in" variant="body2">
-                  Sign In
-                </Link>
-              </Typography>
-            </form>
-          </div>
+              />
+
+            </FormControl>
+
+            <FormControl fullWidth>
+              <FormLabel htmlFor="password">Confirm Password</FormLabel>
+              <TextField
+                error={passwordError}
+                helperText={passwordErrorMessage}
+                name="password"
+                placeholder="••••••"
+                type="password"
+                id="password"
+                autoComplete="current-password"
+                required
+                variant="outlined"
+              />
+            </FormControl>
+
+            <FormControlLabel
+              control={<Checkbox value="remember" color="primary" />}
+              label="Remember me"
+            />
+
+            <Button
+              type="submit"
+              fullWidth
+              variant="contained"
+              onClick={validateInputs}
+            >
+              Sign up
+            </Button>
+
+            <Divider>or</Divider>
+            <div className="flex flex-row gap-2">
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                signIn("google", { callbackUrl: "/" });
+              }}
+            >
+              Sign In with Google
+            </Button>
+
+            <Button
+              fullWidth
+              variant="outlined"
+              onClick={() => {
+                signIn("github", { callbackUrl: "/" });
+              }}
+            >
+              Sign In with Github
+            </Button>
+            </div>
+
+            <Typography sx={{ textAlign: "center" }}>
+              You have an account?{" "}
+              <Link href="/sign-in">
+                Sign In
+              </Link>
+            </Typography>
+          </form>
         </div>
       </Container>
     </>

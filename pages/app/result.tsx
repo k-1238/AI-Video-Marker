@@ -9,11 +9,10 @@ import {
 import AppLayout from "@/layouts/app-layout";
 import { usePostInputVideoProp } from "@/services";
 import { useRouter } from "next/router";
-// import { useSession } from "next-auth/react";
+import Lottie from "react-lottie";
+import loadingAnimation from "../../data/triangle.json"
 
 const VideoContent = () => {
-  // const { data:session } = useSession()
-  // console.log('session data', session)
   const router = useRouter();
   const { postVideo, isLoading, error } = usePostInputVideoProp();
   const [videoUrl, setVideoUrl] = useState<string | null>(null);
@@ -21,17 +20,18 @@ const VideoContent = () => {
   // Extract videoRequest from router.query
   console.log('array text', router.query.arrayText)
   const videoRequest = router.query.arrayText
-  ? { 
+    ? {
       arrayText: JSON.parse(router.query.arrayText as string),
       template: router.query.template as string
     }
-  : {
+    : {
+      voice: router.query.voice as string,
       prompt: router.query.prompt as string,
       orientation: router.query.orientation as string,
       duration: Number(router.query.duration),
       durationPerScene: Number(router.query.durationPerScene),
       template: router.query.template as string,
-  };
+    };
 
   // console.log('vide request', videoRequest)
   // Call postVideo and handle response
@@ -43,9 +43,9 @@ const VideoContent = () => {
         //   ...videoRequest,
         //   userId: session?.user?.id,
         // };
-  
+
         console.log("video run");
-  
+
         const response = await postVideo(videoRequest);
         console.log("Video generated:", response);
         setVideoUrl((prev) => (prev === response?.videoUrl ? prev : response?.videoUrl));
@@ -53,24 +53,16 @@ const VideoContent = () => {
         console.error("Error processing video request:", e);
       }
     };
-  
+
     submitVideoRequest();
   }, [router.query, videoUrl]);
 
 
   if (isLoading) {
     return (
-      <Box
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          gap: 2,
-        }}
-      >
-        <CircularProgress />
-        <Typography variant="h6">Processing your video...</Typography>
-      </Box>
+      <div className="flex items-center justify-center h-screen">
+        <Lottie options={{ loop: true, animationData: loadingAnimation }} height={200} width={200} />
+      </div>
     );
   }
 
@@ -85,7 +77,7 @@ const VideoContent = () => {
   const handleDownload = () => {
     // Create an anchor element dynamically
     const anchor = document.createElement("a");
-    anchor.href = videoUrl || ''; 
+    anchor.href = videoUrl || '';
     anchor.download = "video.mp4"; // Name of the downloaded file
     anchor.click(); // Trigger the download
   };

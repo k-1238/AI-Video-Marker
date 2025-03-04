@@ -11,22 +11,22 @@ export default async function createVideo(
   res: NextApiResponse
 ) {
   try {
-    await ConnectDB();
+    // await ConnectDB();
 
-    // Ensure the method is POST
-    if (req.method !== "POST") {
-      return res.status(405).json({ message: "Method not allowed" });
-    }
-    // Fetch session
-    const session = await getServerSession(req, res, AuthOptions);
-    if (!session || !session.user) {
-      return res.status(401).json({ message: "Unauthorized" });
-    }
+    // // Ensure the method is POST
+    // if (req.method !== "POST") {
+    //   return res.status(405).json({ message: "Method not allowed" });
+    // }
+    // // Fetch session
+    // const session = await getServerSession(req, res, AuthOptions);
+    // if (!session || !session.user) {
+    //   return res.status(401).json({ message: "Unauthorized" });
+    // }
 
-    // Extract userId from session
-    const userEmail = session?.user?.email;
-    const user = await UserModel.findOne({ email: userEmail });
-    const userId = user?._id.toString();
+    // // Extract userId from session
+    // const userEmail = session?.user?.email;
+    // const user = await UserModel.findOne({ email: userEmail });
+    // const userId = user?._id.toString();
 
     let videoResultUrl;
     // if (req.body.template === "Static") {
@@ -98,6 +98,7 @@ export default async function createVideo(
         formData.append("type", "video"); 
       } else if (req.body.prompt) {
         formData.append("prompt_text", req.body.prompt);
+        formData.append("voice", req.body.voice)
         
         // If prompt is provided, use req.body values
         formData.append("duration_total", req.body.duration);
@@ -130,6 +131,7 @@ export default async function createVideo(
         console.log('form data', formData)
       } else if (req.body.prompt) {
         formData.append("prompt_text", req.body.prompt);
+        formData.append("voice", req.body.voice)
         
         // If prompt is provided, use req.body values
         formData.append("duration_total", req.body.duration);
@@ -161,6 +163,7 @@ export default async function createVideo(
         formData.append("type", "video"); 
       } else if (req.body.prompt) {
         formData.append("prompt_text", req.body.prompt);
+        formData.append("voice", req.body.voice)
         
         // If prompt is provided, use req.body values
         formData.append("duration_total", req.body.duration);
@@ -178,8 +181,8 @@ export default async function createVideo(
     }
 
     // Type-check the request body
-    // const { userId } = req.body;
-    // console.log('user id', userId)
+    const { userId } = req.body;
+    console.log('user id', userId)
 
     // Create the video in the database
     const video = await VideoModel.create({
